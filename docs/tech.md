@@ -54,9 +54,13 @@
 { name: "换手机", target: 3000, saved: 0 }
 ```
 
-### 3.4 聊天历史 chatHistory[]（本地保留）
+### 3.4 聊天历史 chatSessions[]（本地保留，多会话）
+> 2026-08-11 决策：AI 对话做**多会话**。本地键名 `chatSessions`，按"会话 → 消息"两级存。单会话只保留最近 40 条（数据最小化）。
 ```js
-[{ role: "user"|"assistant", text: "...", time: "..." }]
+[{
+  id: "sess-xxx", title: "自动取首条用户消息前 12 字", createdAt: "...",
+  messages: [{ role: "user"|"assistant", text: "...", time: "..." }]
+}]
 ```
 
 ### 3.5 月度回顾存档 reports[]（每月自动生成后归档）

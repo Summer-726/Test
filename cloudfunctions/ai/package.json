@@ -1,0 +1,7 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "description": "AI 经济顾问 · 唯一 AI 云函数（classify / chat / report）",
+  "main": "index.js",
+  "dependencies": {}
+}

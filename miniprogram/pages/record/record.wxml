@@ -1,0 +1,42 @@
+<!-- 记账页（阶段 2 完成：界面 + 保存到本地） -->
+<view class="record-page">
+
+  <!-- 金额显示区 -->
+  <view class="amount-area">
+    <view class="amount-currency">¥</view>
+    <view class="amount-value">{{amount || '0'}}</view>
+  </view>
+
+  <!-- 支出 / 收入 分段切换 -->
+  <view class="type-switch">
+    <view class="type-item {{type==='expense' ? 'active' : ''}}" data-t="expense" bindtap="switchType">支出</view>
+    <view class="type-item {{type==='income' ? 'active' : ''}}" data-t="income" bindtap="switchType">收入</view>
+  </view>
+
+  <!-- 扣款来源（仅支出时显示） -->
+  <view class="jar-row" wx:if="{{type === 'expense'}}">
+    <view class="jar-pill {{jar==='flower' ? 'active' : ''}}" data-j="flower" bindtap="chooseJar">日常</view>
+    <view class="jar-pill {{jar==='rescue' ? 'active' : ''}}" data-j="rescue" bindtap="chooseJar">应急</view>
+    <view class="jar-pill {{jar==='savings' ? 'active' : ''}}" data-j="savings" bindtap="chooseJar">存款</view>
+  </view>
+
+  <!-- 描述输入 -->
+  <view class="desc-box">
+    <input placeholder="这笔钱花在/收入在哪？如：和朋友看了场电影" value="{{desc}}" bindinput="onDesc" maxlength="30" />
+  </view>
+
+  <!-- 日期 -->
+  <view class="date-row">
+    <text>📅 {{date}}</text>
+    <text class="date-hint">（改日期：阶段 2 后支持）</text>
+  </view>
+
+</view>
+
+<!-- 数字键盘（固定底部） -->
+<view class="keypad">
+  <view class="keypad-grid">
+    <view class="key" wx:for="{{keys}}" wx:key="*this" data-k="{{item}}" bindtap="onKey">{{item === 'del' ? '⌫' : item}}</view>
+  </view>
+  <view class="key-confirm" bindtap="onSave">保存</view>
+</view>

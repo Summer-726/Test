@@ -1,0 +1,8 @@
+<!-- 洞察页（阶段 1 骨架） -->
+<view class="page-title">洞察</view>
+<view class="page-sub">阶段 5 实现：钱花得值不值</view>
+
+<view class="card">
+  <view class="placeholder">📊 分类花费 + 值得度图表 —— 阶段 5</view>
+  <view class="placeholder">🤖 AI 点评：最值 / 最后悔 —— 阶段 5</view>
+</view>

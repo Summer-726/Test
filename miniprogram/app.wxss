@@ -1,0 +1,49 @@
+/* ========== 全局样式：苹果风 ========== */
+/* 配色、文字层级、组件规范见 docs/design.md */
+
+page {
+  background-color: #f5f5f7;   /* 页面浅灰底 */
+  color: #1d1d1f;              /* 近黑正文 */
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+/* 通用白色圆角卡片 */
+.card {
+  background: #ffffff;
+  border-radius: 28rpx;
+  padding: 32rpx;
+  margin: 24rpx 32rpx;
+}
+
+/* 页面大标题 */
+.page-title {
+  font-size: 44rpx;
+  font-weight: 600;
+  margin: 40rpx 32rpx 8rpx;
+}
+
+/* 页面副标题（灰） */
+.page-sub {
+  color: #86868b;
+  font-size: 26rpx;
+  margin: 0 32rpx 24rpx;
+}
+
+/* 苹果风主按钮（胶囊形） */
+.btn-primary {
+  background: #0a84ff;
+  color: #ffffff;
+  border-radius: 999rpx;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+/* 骨架期占位文字 */
+.placeholder {
+  color: #86868b;
+  padding: 12rpx 0;
+}

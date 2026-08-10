@@ -1,0 +1,47 @@
+<!-- 首页概览（阶段 1b：结构成型，数据后续接入） -->
+
+<!-- 三罐状态卡：点它进预算页 -->
+<view class="card jar-card" bindtap="goBudget">
+  <view class="jar-label">日常</view>
+  <view class="jar-remain">¥{{jar.flowerRemain}}</view>
+  <view class="jar-used">本月已用 ¥{{jar.flowerUsed}} / 共 ¥{{jar.flowerTotal}}</view>
+
+  <!-- 花罐进度条 -->
+  <view class="progress-bar">
+    <view class="progress-fill" style="width: {{jar.percent}}%"></view>
+  </view>
+
+  <view class="jar-meta" wx:if="{{jar.flowerTotal !== '0.00'}}">剩 {{jar.daysLeft}} 天 · 日均还能花 ¥{{jar.avgDaily}}</view>
+  <view class="jar-meta" wx:else>还没设置本月生活费，点下方「预算」先设置</view>
+
+  <view class="jar-sub">
+    <text class="jar-item">应急 ¥{{jar.rescue}}</text>
+    <text class="jar-item">存款 ¥{{jar.savings}}</text>
+    <text class="jar-more">预算 ›</text>
+  </view>
+</view>
+
+<!-- 汇报按钮 -->
+<view class="report-row">
+  <view class="report-btn" bindtap="onReportToday">今日汇报</view>
+  <view class="report-btn" bindtap="onReportMonth">本月汇报</view>
+</view>
+
+<!-- 顾问提醒卡片 -->
+<view class="card advisor-card">
+  <view class="advisor-title">💡 顾问提醒</view>
+  <view class="advisor-text">先设置本月生活费，顾问才能帮你盯住预算、分析每一笔花得值不值。</view>
+</view>
+
+<!-- 最近消费 -->
+<view class="card recent-card">
+  <view class="recent-title">最近消费</view>
+  <view wx:if="{{recent.length === 0}}" class="recent-empty">还没有记录，点底部「记账」开始第一笔～</view>
+  <view wx:for="{{recent}}" wx:key="id" class="recent-item">
+    <view class="recent-left">
+      <view class="recent-desc">{{item.desc}}</view>
+      <view class="recent-cat">{{item.category}}</view>
+    </view>
+    <view class="recent-amount {{item.sign === '-' ? 'expense' : 'income'}}">{{item.sign}}¥{{item.amount}}</view>
+  </view>
+</view>

@@ -1,0 +1,48 @@
+<!-- 问 AI 页（阶段 4c：多会话对话） -->
+
+<!-- ===== 会话列表 ===== -->
+<view wx:if="{{view === 'list'}}" class="session-page">
+  <view class="list-header">
+    <view class="page-title">问 AI</view>
+    <view class="new-btn" bindtap="onNew">＋ 新对话</view>
+  </view>
+
+  <view wx:if="{{sessions.length === 0}}" class="session-empty">
+    还没有对话。点「＋ 新对话」，带着真实账本的顾问随时帮你～
+  </view>
+
+  <!-- 左滑露出删除 -->
+  <view class="slide-wrap {{item.id === openId ? 'is-open' : ''}}"
+        wx:for="{{sessions}}" wx:key="id" data-id="{{item.id}}"
+        bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd">
+    <view class="slide-content"
+          style="{{item.id === slideId ? 'transform: translateX(' + slideX + 'px);' : ''}}">
+      <view class="session-item" data-id="{{item.id}}" bindtap="openSession">
+        <view class="session-title">{{item.title}}</view>
+        <view class="session-preview">{{item.preview || '（空对话）'}}</view>
+      </view>
+    </view>
+    <view class="slide-delete" data-id="{{item.id}}" catchtap="onDelete">删除</view>
+  </view>
+</view>
+
+<!-- ===== 对话视图 ===== -->
+<view wx:else class="chat-page">
+  <view class="chat-header">
+    <view class="chat-back" bindtap="backToList">‹ 会话</view>
+    <view class="chat-title">{{title}}</view>
+  </view>
+
+  <scroll-view class="chat-body" scroll-y scroll-into-view="{{scrollInto}}" scroll-with-animation>
+    <view wx:if="{{messages.length === 0}}" class="chat-empty">{{greeting}}</view>
+    <view wx:for="{{messages}}" wx:key="index" id="msg-{{index}}" class="msg {{item.role}}">
+      <view class="bubble">{{item.text}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="chat-input-bar">
+    <input class="chat-input" value="{{input}}" bindinput="onInput"
+           placeholder="问问顾问…" confirm-type="send" bindconfirm="onSend" />
+    <view class="send-btn {{sending ? 'disabled' : ''}}" bindtap="onSend">{{sending ? '…' : '发送'}}</view>
+  </view>
+</view>

@@ -1,0 +1,76 @@
+/* 问 AI 页（阶段 4c：多会话对话，苹果风） */
+page { height: 100%; }
+
+/* ===== 会话列表 ===== */
+.session-page { padding-bottom: 60rpx; }
+.list-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24rpx 32rpx 8rpx;
+}
+.new-btn {
+  background: #0a84ff; color: #fff; font-size: 26rpx;
+  padding: 14rpx 28rpx; border-radius: 999rpx;
+}
+.session-empty { color: #86868b; font-size: 26rpx; text-align: center; padding: 120rpx 60rpx; }
+
+/* 左滑删除 */
+.slide-wrap {
+  position: relative; overflow: hidden;
+  margin: 12rpx 32rpx; border-radius: 20rpx;
+  background: #fff; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+.slide-content {
+  position: relative; z-index: 1;      /* 关键：平时白色卡片压住右侧的删除按钮 */
+  background: #fff; border-radius: 20rpx;
+  transition: transform 0.18s ease;
+}
+.slide-wrap.is-open .slide-content { transform: translateX(-80px); }
+.slide-delete {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 80px;
+  background: #ff3b30; color: #fff; font-size: 28rpx;
+  display: flex; align-items: center; justify-content: center;
+}
+.session-item { background: #fff; border-radius: 20rpx; padding: 26rpx 28rpx; }
+.session-title { font-size: 30rpx; font-weight: 500; color: #1d1d1f; }
+.session-preview {
+  font-size: 24rpx; color: #86868b; margin-top: 8rpx;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ===== 对话视图 ===== */
+.chat-page { display: flex; flex-direction: column; height: 100%; }
+.chat-header {
+  display: flex; align-items: center; padding: 20rpx 32rpx; background: #f5f5f7;
+  border-bottom: 1rpx solid #e5e5ea;
+}
+.chat-back { font-size: 28rpx; color: #0a84ff; margin-right: 24rpx; }
+.chat-title { font-size: 30rpx; font-weight: 600; color: #1d1d1f; }
+.chat-body { flex: 1; height: 0; padding: 24rpx 32rpx; box-sizing: border-box; }
+.chat-empty { color: #86868b; font-size: 26rpx; text-align: center; padding: 80rpx 40rpx; }
+.msg { display: flex; margin-bottom: 20rpx; }
+.msg.user { justify-content: flex-end; }
+.msg.assistant { justify-content: flex-start; }
+.bubble {
+  max-width: 78%; padding: 20rpx 26rpx; border-radius: 24rpx;
+  font-size: 28rpx; line-height: 1.5; word-break: break-all;
+}
+.msg.user .bubble { background: #0a84ff; color: #fff; border-bottom-right-radius: 8rpx; }
+.msg.assistant .bubble {
+  background: #fff; color: #1d1d1f; border-bottom-left-radius: 8rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+/* ===== 输入栏 ===== */
+.chat-input-bar {
+  display: flex; align-items: center; padding: 16rpx 24rpx; background: #fff;
+  border-top: 1rpx solid #e5e5ea;
+}
+.chat-input {
+  flex: 1; background: #f2f2f7; border-radius: 999rpx;
+  padding: 16rpx 28rpx; font-size: 28rpx;
+}
+.send-btn {
+  margin-left: 16rpx; background: #0a84ff; color: #fff; font-size: 28rpx;
+  padding: 16rpx 36rpx; border-radius: 999rpx;
+}
+.send-btn.disabled { opacity: 0.5; }

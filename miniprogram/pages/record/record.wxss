@@ -1,0 +1,146 @@
+/* 记账页样式（阶段 2） */
+
+.record-page {
+  padding-bottom: 540rpx; /* 给固定键盘留出空间 */
+}
+
+/* ===== 金额显示 ===== */
+.amount-area {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  padding: 56rpx 32rpx 24rpx;
+}
+
+.amount-currency {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-right: 8rpx;
+}
+
+.amount-value {
+  font-size: 88rpx;
+  font-weight: 700;
+  color: #1d1d1f;
+  line-height: 1.2;
+}
+
+/* ===== 支出/收入 分段切换 ===== */
+.type-switch {
+  display: flex;
+  margin: 16rpx 32rpx;
+  background: #e5e5ea;
+  border-radius: 999rpx;
+  padding: 6rpx;
+}
+
+.type-item {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  border-radius: 999rpx;
+  color: #86868b;
+  font-size: 28rpx;
+}
+
+.type-item.active {
+  background: #ffffff;
+  color: #1d1d1f;
+  font-weight: 500;
+}
+
+/* ===== 扣款来源 ===== */
+.jar-row {
+  display: flex;
+  justify-content: center;
+  margin: 8rpx 32rpx 20rpx;
+}
+
+.jar-pill {
+  padding: 12rpx 36rpx;
+  margin: 0 12rpx;
+  border-radius: 999rpx;
+  background: #ffffff;
+  color: #86868b;
+  font-size: 26rpx;
+  border: 2rpx solid transparent;
+}
+
+.jar-pill.active {
+  color: #0a84ff;
+  border-color: #0a84ff;
+  font-weight: 500;
+}
+
+/* ===== 描述输入 ===== */
+.desc-box {
+  background: #ffffff;
+  border-radius: 20rpx;
+  margin: 8rpx 32rpx;
+  padding: 24rpx 28rpx;
+}
+
+.desc-box input {
+  font-size: 28rpx;
+  color: #1d1d1f;
+}
+
+/* ===== 日期 ===== */
+.date-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16rpx 32rpx;
+  font-size: 24rpx;
+  color: #86868b;
+}
+
+.date-hint {
+  margin-left: 8rpx;
+}
+
+/* ===== 数字键盘 ===== */
+.keypad {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #f2f2f7;
+  padding: 8rpx;
+}
+
+.keypad-grid {
+  flex: 3;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.key {
+  box-sizing: border-box;
+  width: calc(33.33% - 16rpx);
+  height: 108rpx;
+  margin: 8rpx;
+  border-radius: 28rpx;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42rpx;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+.key-confirm {
+  flex: 1;
+  margin: 8rpx;
+  border-radius: 28rpx;
+  background: #0a84ff;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  font-weight: 600;
+}

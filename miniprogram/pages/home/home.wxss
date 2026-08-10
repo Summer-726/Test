@@ -1,0 +1,147 @@
+/* 首页样式（阶段 1b：结构成型） */
+
+/* ===== 三罐状态卡 ===== */
+.jar-card {
+  margin-top: 32rpx;
+}
+
+.jar-label {
+  font-size: 28rpx;
+  color: #86868b;
+}
+
+.jar-remain {
+  font-size: 76rpx;
+  font-weight: 700;
+  margin: 4rpx 0;
+  line-height: 1.2;
+}
+
+.jar-used {
+  font-size: 24rpx;
+  color: #86868b;
+}
+
+/* 花罐进度条 */
+.progress-bar {
+  height: 12rpx;
+  background: #e5e5ea;
+  border-radius: 999rpx;
+  overflow: hidden;
+  margin: 20rpx 0 12rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #0a84ff;
+  border-radius: 999rpx;
+}
+
+.jar-meta {
+  font-size: 24rpx;
+  color: #86868b;
+  margin-bottom: 18rpx;
+}
+
+.jar-sub {
+  display: flex;
+  align-items: center;
+  border-top: 1rpx solid #f2f2f7;
+  padding-top: 20rpx;
+}
+
+.jar-item {
+  font-size: 26rpx;
+  color: #1d1d1f;
+  margin-right: 36rpx;
+}
+
+.jar-more {
+  margin-left: auto;
+  color: #0a84ff;
+  font-size: 26rpx;
+}
+
+/* ===== 汇报按钮 ===== */
+.report-row {
+  display: flex;
+  margin: 8rpx 32rpx;
+}
+
+.report-btn {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 0;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #0a84ff;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.report-btn + .report-btn {
+  margin-left: 20rpx;
+}
+
+/* ===== 顾问提醒卡片 ===== */
+.advisor-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 10rpx;
+}
+
+.advisor-text {
+  font-size: 26rpx;
+  color: #86868b;
+}
+
+/* ===== 最近消费 ===== */
+.recent-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.recent-empty {
+  color: #86868b;
+  font-size: 26rpx;
+  padding: 28rpx 0;
+  text-align: center;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #f2f2f7;
+}
+
+.recent-item:first-of-type {
+  border-top: none;
+}
+
+.recent-left {
+  flex: 1;
+}
+
+.recent-desc {
+  font-size: 28rpx;
+  color: #1d1d1f;
+}
+
+.recent-cat {
+  font-size: 22rpx;
+  color: #86868b;
+  margin-top: 2rpx;
+}
+
+.recent-amount {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+.recent-amount.income {
+  color: #34c759;
+}

@@ -1,0 +1,110 @@
+/* 预算页样式（阶段 3：分段控件 + 预算/规划面板） */
+
+/* ===== 分段控件（苹果风胶囊） ===== */
+.seg {
+  display: flex;
+  margin: 24rpx 32rpx;
+  background: #e5e5ea;
+  border-radius: 999rpx;
+  padding: 6rpx;
+}
+
+.seg-item {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  border-radius: 999rpx;
+  color: #86868b;
+  font-size: 28rpx;
+}
+
+.seg-item.active {
+  background: #ffffff;
+  color: #1d1d1f;
+  font-weight: 500;
+}
+
+/* ===== 字段 ===== */
+.field-label {
+  font-size: 26rpx;
+  color: #86868b;
+  margin-bottom: 12rpx;
+}
+
+.income-input {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+/* ===== 三罐比例 ===== */
+.ratio-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #1d1d1f;
+  margin-bottom: 20rpx;
+}
+
+.preset-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.preset-chip {
+  padding: 12rpx 28rpx;
+  margin: 8rpx 16rpx 8rpx 0;
+  border-radius: 999rpx;
+  background: #f2f2f7;
+  font-size: 26rpx;
+  color: #1d1d1f;
+}
+
+.preset-chip.active {
+  background: #0a84ff;
+  color: #ffffff;
+}
+
+/* ===== 预警开关 ===== */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #1d1d1f;
+}
+
+/* ===== 保存按钮 ===== */
+.save-btn {
+  margin: 24rpx 32rpx;
+}
+
+/* ===== 规划面板 ===== */
+.goal-saved {
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+
+.progress-bar {
+  height: 12rpx;
+  background: #e5e5ea;
+  border-radius: 999rpx;
+  overflow: hidden;
+  margin: 16rpx 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #0a84ff;
+  border-radius: 999rpx;
+}
+
+.goal-hint {
+  font-size: 24rpx;
+  color: #86868b;
+}
+
+.mt {
+  margin-top: 16rpx;
+}

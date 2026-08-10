@@ -1,0 +1,37 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 背景：苹果蓝渐变（左上 → 右下） -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2E8BFF"/>
+      <stop offset="100%" stop-color="#0A4FD8"/>
+    </linearGradient>
+    <!-- 顶部玻璃高光：极淡，增加质感 -->
+    <linearGradient id="sheen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 圆角方形底（高级简约：单一渐变，不做边框） -->
+  <rect x="0" y="0" width="1024" height="1024" rx="180" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1024" height="1024" rx="180" fill="url(#sheen)"/>
+
+  <!-- 零钱元素①：后景一枚淡淡的硬币（叠层感，呼应"零钱"复数） -->
+  <circle cx="330" cy="690" r="110" fill="#FFFFFF" opacity="0.10"/>
+  <circle cx="330" cy="690" r="110" fill="none" stroke="#FFFFFF" stroke-width="12" opacity="0.35"/>
+
+  <!-- 零钱元素② + 字母 C：一枚"开口的硬币"（白带，右侧开口） -->
+  <path d="M 634.7 681.7
+           A 240 240 0 1 1 634.7 342.3
+           L 574.6 402.4
+           A 155 155 0 1 0 574.6 621.6
+           Z"
+        fill="#FFFFFF"/>
+
+  <!-- 字母 A：三笔粗线条，嵌进 C 的开口、下缘叠压 C 的带宽（两字交织） -->
+  <g stroke="#FFFFFF" stroke-width="88" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <line x1="660" y1="330" x2="580" y2="700"/>
+    <line x1="660" y1="330" x2="750" y2="700"/>
+    <line x1="608" y1="545" x2="718" y2="545"/>
+  </g>
+</svg>

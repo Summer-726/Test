@@ -1,0 +1,64 @@
+<!-- 预算页（阶段 3：分段 [预算 | 规划]） -->
+
+<!-- 分段控件 -->
+<view class="seg">
+  <view class="seg-item {{tab === 'budget' ? 'active' : ''}}" data-t="budget" bindtap="switchTab">预算</view>
+  <view class="seg-item {{tab === 'plan' ? 'active' : ''}}" data-t="plan" bindtap="switchTab">规划</view>
+</view>
+
+<!-- ===== 预算面板 ===== -->
+<view wx:if="{{tab === 'budget'}}">
+
+  <view class="card">
+    <view class="field-label">本月生活费（¥）</view>
+    <input class="income-input" type="digit" placeholder="如 1500" value="{{income}}" bindinput="onIncome" />
+  </view>
+
+  <view class="card">
+    <view class="field-label">生活费怎么分（日常 / 应急 / 存款）</view>
+    <view class="ratio-display">
+      <text>日常 {{ratio.flower}}%</text>
+      <text>应急 {{ratio.rescue}}%</text>
+      <text>存款 {{ratio.savings}}%</text>
+    </view>
+    <view class="preset-row">
+      <view class="preset-chip {{activePreset === item.idx ? 'active' : ''}}"
+            wx:for="{{presets}}" wx:key="idx"
+            data-idx="{{item.idx}}" bindtap="choosePreset">{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="card switch-card">
+    <view class="switch-row">
+      <text>预警提醒（花到 70% / 90% 时提示）</text>
+      <switch checked="{{warnEnabled}}" bindchange="onWarnToggle" color="#0a84ff" />
+    </view>
+  </view>
+
+  <view class="btn-primary save-btn" bindtap="saveBudget">保存预算</view>
+</view>
+
+<!-- ===== 规划面板 ===== -->
+<view wx:if="{{tab === 'plan'}}">
+
+  <view class="card">
+    <view class="field-label">存款余额</view>
+    <view class="goal-saved">¥{{goalSaved}}</view>
+    <view class="goal-hint">存款、应急跨月结转，日常每月重置</view>
+  </view>
+
+  <view class="card" wx:if="{{goal}}">
+    <view class="field-label">目标 · {{goal.name}} · ¥{{goal.target}}</view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{goalPercent}}%"></view>
+    </view>
+    <view class="goal-hint">已存 ¥{{goalSaved}}（进度 {{goalPercent}}%）</view>
+  </view>
+
+  <view class="card">
+    <view class="field-label">设置存钱目标</view>
+    <input placeholder="目标名称，如：换手机" value="{{goalName}}" bindinput="onGoalName" maxlength="12" />
+    <input class="mt" type="digit" placeholder="目标金额，如 3000" value="{{goalTarget}}" bindinput="onGoalTarget" />
+    <view class="btn-primary save-btn" bindtap="saveGoal">保存目标</view>
+  </view>
+</view>
