@@ -131,7 +131,7 @@ Page(slideToDelete({
       mode: 'chat',
       question: text,
       context: this.buildContext(),
-      history: msgs.slice(-5, -1) // 最近 5 条历史（不含刚发的这条），数据最小化，也缩短 AI 处理时间
+      history: msgs.slice(-8, -1) // 最近 8 条历史（不含刚发的这条），数据最小化，也控制 AI 处理时间
     })
       .then(res => {
         const r = res.result || {};
