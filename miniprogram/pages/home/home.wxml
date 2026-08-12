@@ -1,12 +1,21 @@
-<!-- 首页概览（阶段 1b：结构成型，数据后续接入） -->
+<!-- 首页概览 -->
 
-<!-- 三罐状态卡：点它进预算页 -->
-<view class="card jar-card" bindtap="goBudget">
+<!-- AI 顾问入口（方案一：AI 是主角，随时可咨询） -->
+<view class="ask-ai-card" hover-class="pressed" bindtap="onAskAI">
+  <view class="ask-ai-left">
+    <view class="ask-ai-title">任何关于零钱的事，都可以问我</view>
+    <view class="ask-ai-sub">AI 顾问 · 记账 / 预算 / 该不该买，随时咨询</view>
+  </view>
+  <view class="ask-ai-arrow">›</view>
+</view>
+
+<!-- 日常/应急/存款状态卡：点它进预算页 -->
+<view class="card jar-card" hover-class="pressed" bindtap="goBudget">
   <view class="jar-label">日常</view>
   <view class="jar-remain">¥{{jar.flowerRemain}}</view>
   <view class="jar-used">本月已用 ¥{{jar.flowerUsed}} / 共 ¥{{jar.flowerTotal}}</view>
 
-  <!-- 花罐进度条 -->
+  <!-- 日常进度条 -->
   <view class="progress-bar">
     <view class="progress-fill" style="width: {{jar.percent}}%"></view>
   </view>
@@ -21,27 +30,31 @@
   </view>
 </view>
 
-<!-- 汇报按钮 -->
-<view class="report-row">
-  <view class="report-btn" bindtap="onReportToday">今日汇报</view>
-  <view class="report-btn" bindtap="onReportMonth">本月汇报</view>
-</view>
-
-<!-- 顾问提醒卡片 -->
-<view class="card advisor-card">
+<!-- 顾问提醒卡片（阶段 6c：文案按预算状态动态；点卡片随时进 AI 助手） -->
+<view class="card advisor-card" hover-class="pressed" bindtap="onAskAI">
   <view class="advisor-title">💡 顾问提醒</view>
-  <view class="advisor-text">先设置本月生活费，顾问才能帮你盯住预算、分析每一笔花得值不值。</view>
+  <view class="advisor-text">{{advisorText}}</view>
 </view>
 
-<!-- 最近消费 -->
+<!-- 最近消费（左滑撤回） -->
 <view class="card recent-card">
   <view class="recent-title">最近消费</view>
   <view wx:if="{{recent.length === 0}}" class="recent-empty">还没有记录，点底部「记账」开始第一笔～</view>
-  <view wx:for="{{recent}}" wx:key="id" class="recent-item">
-    <view class="recent-left">
-      <view class="recent-desc">{{item.desc}}</view>
-      <view class="recent-cat">{{item.category}}</view>
+
+  <view class="slide-wrap {{item.id === openId ? 'is-open' : ''}}"
+        wx:for="{{recent}}" wx:key="id" data-id="{{item.id}}"
+        bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd">
+    <view class="slide-content"
+          style="{{item.id === slideId ? 'transform: translateX(' + slideX + 'px);' : ''}}">
+      <view class="recent-item">
+        <view class="recent-left">
+          <view class="recent-desc">{{item.desc}}</view>
+          <view class="recent-cat">{{item.category}} · {{item.dateLabel}}</view>
+        </view>
+        <view class="recent-amount {{item.sign === '-' ? 'expense' : 'income'}}">{{item.sign}}¥{{item.amount}}</view>
+      </view>
     </view>
-    <view class="recent-amount {{item.sign === '-' ? 'expense' : 'income'}}">{{item.sign}}¥{{item.amount}}</view>
+    <!-- 删除按钮平时在容器右侧外被 overflow:hidden 裁掉，左滑吸附后才滑进可视区 -->
+    <view class="slide-delete" data-id="{{item.id}}" catchtap="onDeleteEntry">撤回</view>
   </view>
 </view>

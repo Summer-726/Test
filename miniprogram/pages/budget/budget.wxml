@@ -2,8 +2,8 @@
 
 <!-- 分段控件 -->
 <view class="seg">
-  <view class="seg-item {{tab === 'budget' ? 'active' : ''}}" data-t="budget" bindtap="switchTab">预算</view>
-  <view class="seg-item {{tab === 'plan' ? 'active' : ''}}" data-t="plan" bindtap="switchTab">规划</view>
+  <view class="seg-item {{tab === 'budget' ? 'active' : ''}}" data-t="budget" hover-class="pressed" bindtap="switchTab">预算</view>
+  <view class="seg-item {{tab === 'plan' ? 'active' : ''}}" data-t="plan" hover-class="pressed" bindtap="switchTab">规划</view>
 </view>
 
 <!-- ===== 预算面板 ===== -->
@@ -23,8 +23,44 @@
     </view>
     <view class="preset-row">
       <view class="preset-chip {{activePreset === item.idx ? 'active' : ''}}"
-            wx:for="{{presets}}" wx:key="idx"
+            wx:for="{{presets}}" wx:key="idx" hover-class="pressed"
             data-idx="{{item.idx}}" bindtap="choosePreset">{{item.label}}</view>
+      <view class="preset-chip {{activePreset === -1 ? 'active' : ''}}"
+            hover-class="pressed" data-idx="-1" bindtap="choosePreset">自定义</view>
+    </view>
+
+    <!-- 自定义比例输入区（选「自定义」时展开） -->
+    <view wx:if="{{activePreset === -1}}" class="custom-box">
+      <view class="custom-row">
+        <view class="custom-col">
+          <view class="custom-label">日常</view>
+          <view class="custom-input-wrap">
+            <input class="custom-input" type="digit" placeholder="70" value="{{custom.flower}}"
+                   data-field="flower" bindinput="onCustomInput" />
+            <text class="pct">%</text>
+          </view>
+        </view>
+        <view class="custom-col">
+          <view class="custom-label">应急</view>
+          <view class="custom-input-wrap">
+            <input class="custom-input" type="digit" placeholder="15" value="{{custom.rescue}}"
+                   data-field="rescue" bindinput="onCustomInput" />
+            <text class="pct">%</text>
+          </view>
+        </view>
+        <view class="custom-col">
+          <view class="custom-label">存款</view>
+          <view class="custom-input-wrap">
+            <input class="custom-input" type="digit" placeholder="15" value="{{custom.savings}}"
+                   data-field="savings" bindinput="onCustomInput" />
+            <text class="pct">%</text>
+          </view>
+        </view>
+      </view>
+      <view class="custom-total {{customOk ? 'ok' : ''}}">
+        <block wx:if="{{customOk}}">合计 100% ✓</block>
+        <block wx:else>合计 {{customTotal}}%，三项加起来要正好 100%</block>
+      </view>
     </view>
   </view>
 
@@ -35,7 +71,7 @@
     </view>
   </view>
 
-  <view class="btn-primary save-btn" bindtap="saveBudget">保存预算</view>
+  <view class="btn-primary save-btn" hover-class="pressed" bindtap="saveBudget">保存预算</view>
 </view>
 
 <!-- ===== 规划面板 ===== -->
@@ -59,6 +95,6 @@
     <view class="field-label">设置存钱目标</view>
     <input placeholder="目标名称，如：换手机" value="{{goalName}}" bindinput="onGoalName" maxlength="12" />
     <input class="mt" type="digit" placeholder="目标金额，如 3000" value="{{goalTarget}}" bindinput="onGoalTarget" />
-    <view class="btn-primary save-btn" bindtap="saveGoal">保存目标</view>
+    <view class="btn-primary save-btn" hover-class="pressed" bindtap="saveGoal">保存目标</view>
   </view>
 </view>

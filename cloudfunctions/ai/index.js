@@ -31,7 +31,7 @@ function callDeepSeek(messages, opts = {}) {
         'Authorization': `Bearer ${API_KEY}`,
         'Content-Length': Buffer.byteLength(payload)
       },
-      timeout: 30000 // 30 秒，DeepSeek 慢时也不至于卡死
+      timeout: 15000 // 15 秒：客户端 callFunction 等待有上限（开发者工具更短），超了就快速失败返回明确错误，前端会重试一次，避免拖到客户端超时断开发 -504003
     }, (res) => {
       let body = '';
       res.on('data', (chunk) => { body += chunk; });
@@ -92,6 +92,58 @@ exports.main = async (event) => {
         return { ok: true, category: categories.indexOf(cat) >= 0 ? cat : '其他' };
       }
 
+      // 5a/5d：汇报与总结点评（today 今日汇报 / month 本月汇报 / insight 本月分布点评）
+      case 'report': {
+        if (!API_KEY) {
+          return { ok: false, error: '还没配置 DEEPSEEK_API_KEY 环境变量' };
+        }
+        const scope = event.scope === 'insight' ? 'insight' : (event.scope === 'today' ? 'today' : 'month');
+        const isToday = scope === 'today';
+        const isInsight = scope === 'insight';
+        const scopeName = isToday ? '今日' : '本月';
+
+        // insight：不生成"汇报"，而是点评消费分布（花在哪、哪值/哪不值）
+        const system = isInsight ? [
+          '你是「零钱智能体」，一个面向学生的 AI 经济顾问。',
+          '用户没有独立收入，生活费来自父母/亲戚。',
+          '请对用户的【本月消费分布】做一次点评，分三小段：',
+          '① 钱主要花在哪（按分类，金额和占比）',
+          '② 从分布看出什么问题或亮点（哪类偏高/偏低、节奏快慢、哪些可能花得不值）',
+          '③ 给 1~3 条具体可执行的建议',
+          '要求：',
+          '- 引用下方真实账本数据，不要空谈',
+          '- 结合下方「最近聊过」理解消费背景，用户自己说过的细节优先，不要凭空揣测',
+          '- 口语化、像朋友聊天，全文 300 字以内',
+          '- 不做投资/理财建议，只做「参考 + 教育」',
+          '',
+          '===== 本月数据（供你参考）=====',
+          event.context || '（暂无数据）'
+        ].join('\n') : [
+          '你是「零钱智能体」，一个面向学生的 AI 经济顾问。',
+          '用户没有独立收入，生活费来自父母/亲戚。',
+          '请生成一份【' + scopeName + '经济汇报】，分三小段：',
+          isToday
+            ? '① 今天花了多少、花在哪（按分类）'
+            : '① 这个月到现在花了多少、花在哪（按分类）',
+          '② 从数据里看到的问题或亮点（比如某类偏高、节奏太快、某笔看起来值不值）',
+          '③ 给 1~3 条具体可执行的建议',
+          '要求：',
+          '- 引用下方真实账本数据，不要空谈',
+          '- 结合下方「最近聊过」理解消费背景，用户自己说过的细节优先，不要凭空揣测',
+          '- 口语化、像朋友聊天，全文 300 字以内',
+          '- 不做投资/理财建议，只做「参考 + 教育」',
+          '',
+          '===== ' + scopeName + ' 数据（供你参考）=====',
+          event.context || '（暂无数据）'
+        ].join('\n');
+
+        const report = await callDeepSeek([
+          { role: 'system', content: system },
+          { role: 'user', content: isInsight ? '请点评我的本月消费分布' : '请生成' + scopeName + '汇报' }
+        ], { temperature: 0.6, maxTokens: 500 });
+        return { ok: true, report };
+      }
+
       // 4c：顾问对话（带实时账本摘要 + 会话历史，RAG）
       case 'chat': {
         if (!API_KEY) {
@@ -122,7 +174,7 @@ exports.main = async (event) => {
           { role: 'system', content: system },
           ...history,
           { role: 'user', content: question }
-        ], { temperature: 0.7, maxTokens: 500 });
+        ], { temperature: 0.7, maxTokens: 300 });
         return { ok: true, reply };
       }
 

@@ -47,3 +47,38 @@ page {
   color: #86868b;
   padding: 12rpx 0;
 }
+
+/* 点击按压反馈：可点元素加 hover-class="pressed"，按下时轻微变暗，松手回弹 */
+.pressed {
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+/* ===== 左滑删除/撤回：通用滑动机制（配套 utils/slideToDelete.js）=====
+   删除按钮平时在容器右侧外（right:-80px），被 overflow:hidden 裁掉，
+   所以平时界面绝对干净、不可能露红线；左滑吸附后（.is-open）按钮滑进可视区 */
+.slide-wrap { position: relative; overflow: hidden; }
+.slide-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  transition: transform 0.18s ease;
+}
+.slide-wrap.is-open .slide-content { transform: translateX(-80px); }
+.slide-delete {
+  position: absolute;
+  top: 0;
+  right: -80px;
+  bottom: 0;
+  width: 80px;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right 0.18s ease;
+}
+.slide-wrap.is-open .slide-delete { right: 0; }

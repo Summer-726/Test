@@ -4,7 +4,7 @@
 <view wx:if="{{view === 'list'}}" class="session-page">
   <view class="list-header">
     <view class="page-title">问 AI</view>
-    <view class="new-btn" bindtap="onNew">＋ 新对话</view>
+    <view class="new-btn" hover-class="pressed" bindtap="onNew">＋ 新对话</view>
   </view>
 
   <view wx:if="{{sessions.length === 0}}" class="session-empty">
@@ -17,11 +17,12 @@
         bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd">
     <view class="slide-content"
           style="{{item.id === slideId ? 'transform: translateX(' + slideX + 'px);' : ''}}">
-      <view class="session-item" data-id="{{item.id}}" bindtap="openSession">
+      <view class="session-item" data-id="{{item.id}}" hover-class="pressed" bindtap="openSession">
         <view class="session-title">{{item.title}}</view>
-        <view class="session-preview">{{item.preview || '（空对话）'}}</view>
+        <view class="session-preview">{{item.preview}}</view>
       </view>
     </view>
+    <!-- 删除按钮平时在容器右侧外被 overflow:hidden 裁掉，左滑吸附后才滑进可视区 -->
     <view class="slide-delete" data-id="{{item.id}}" catchtap="onDelete">删除</view>
   </view>
 </view>
@@ -29,7 +30,7 @@
 <!-- ===== 对话视图 ===== -->
 <view wx:else class="chat-page">
   <view class="chat-header">
-    <view class="chat-back" bindtap="backToList">‹ 会话</view>
+    <view class="chat-back" hover-class="pressed" bindtap="backToList">‹ 会话</view>
     <view class="chat-title">{{title}}</view>
   </view>
 
@@ -43,6 +44,6 @@
   <view class="chat-input-bar">
     <input class="chat-input" value="{{input}}" bindinput="onInput"
            placeholder="问问顾问…" confirm-type="send" bindconfirm="onSend" />
-    <view class="send-btn {{sending ? 'disabled' : ''}}" bindtap="onSend">{{sending ? '…' : '发送'}}</view>
+    <view class="send-btn {{sending ? 'disabled' : ''}}" hover-class="pressed" bindtap="onSend">{{sending ? '…' : '发送'}}</view>
   </view>
 </view>

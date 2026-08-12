@@ -9,12 +9,28 @@ Page({
     jar: 'flower',        // 扣款来源：flower 花 | rescue 救急 | savings 存
     amount: '',           // 金额字符串
     desc: '',             // 描述
-    date: '',             // 日期（默认今天）
+    date: '',             // 日期（默认今天，可改）
+    maxDate: '',          // 日期选择上限（今天）
     keys: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '0', 'del'] // 键盘布局
   },
 
   onLoad() {
-    this.setData({ date: this.today() });
+    const today = this.today();
+    this.setData({ date: today, maxDate: today });
+  },
+
+  // tab 页跨天后不重载，日期会残留旧值：没手动改过就刷新为今天
+  // （修 bug：今天记的账可能被存成首次进页那天的日期）
+  onShow() {
+    if (!this._dateEdited && this.data.date !== this.today()) {
+      this.setData({ date: this.today() });
+    }
+  },
+
+  // 日期选择：改日期（需求："日期默认当天，可改"）
+  onDateChange(e) {
+    this._dateEdited = true; // 记住用户手动改过，切页不重置
+    this.setData({ date: e.detail.value });
   },
 
   // 返回今天的日期 YYYY-MM-DD

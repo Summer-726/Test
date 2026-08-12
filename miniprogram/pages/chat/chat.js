@@ -3,11 +3,11 @@
 const chat = require('../../utils/chat');
 const store = require('../../utils/store');
 const budget = require('../../utils/budget');
+const slideToDelete = require('../../utils/slideToDelete');
+const cloud = require('../../utils/cloud');
 
-// 左滑删除：删除按钮宽度（px），滑动范围 [-SLIDE_W, 0]
-const SLIDE_W = 80;
-
-Page({
+// 左滑删除逻辑来自公共模块 utils/slideToDelete.js（openId/slideId/slideX + 触摸事件）
+Page(slideToDelete({
   data: {
     view: 'list',            // 'list' 会话列表 | 'chat' 对话
     sessions: [],            // 会话列表 [{id, title, preview}]
@@ -17,32 +17,41 @@ Page({
     greeting: '',            // 空会话时的开场白（本地生成，不调 AI）
     input: '',
     sending: false,
-    scrollInto: '',
-    // 左滑删除状态：同时最多一个会话处于滑开状态
-    openId: '',              // 已吸附滑开（露出删除）的会话 id
-    slideId: '',             // 正在拖动/刚拖完的会话 id
-    slideX: 0                // 该会话当前位移（px）
+    scrollInto: ''
   },
 
   onShow() {
     // 每次回到本页刷新列表（可能在其他页记了新账）
     this.refreshList();
+    // 收起可能残留的滑动删除态
+    this.closeSlide();
   },
 
   // ---- 会话列表 ----
   refreshList() {
     this.setData({
-      sessions: chat.getSessions().map(s => ({
-        id: s.id,
-        title: s.title,
-        preview: s.messages.length ? s.messages[s.messages.length - 1].text : ''
-      }))
+      // 过滤掉空会话（历史遗留的"新对话"不再显示）
+      sessions: chat.getSessions()
+        .filter(s => s.messages && s.messages.length > 0)
+        .map(s => ({
+          id: s.id,
+          title: s.title,
+          preview: s.messages[s.messages.length - 1].text
+        }))
     });
   },
 
   onNew() {
-    const s = chat.createSession();
-    this.openSession(s.id);
+    // 延迟创建：先进入"新对话"视图，用户发出第一条消息才真正建会话存本地
+    // （避免"新建 → 没问问题 → 返回"在会话列表留下空会话）
+    this.setData({
+      view: 'chat',
+      currentSessionId: '',
+      title: '新对话',
+      messages: [],
+      greeting: this.buildGreeting(),
+      scrollInto: ''
+    });
   },
 
   openSession(e) {
@@ -70,54 +79,7 @@ Page({
     this.setData({ view: 'list', currentSessionId: '', messages: [], scrollInto: '' });
   },
 
-  // ---- 左滑删除 ----
-  onTouchStart(e) {
-    const id = e.currentTarget.dataset.id;
-    this._startX = e.touches[0].clientX;
-    this._startY = e.touches[0].clientY;
-    this._touchingId = id;
-    this._horiz = null; // 滑动方向还没判定：null / true 横滑 / false 纵滑
-    // 别的项处于滑开状态时，这里先收起来
-    if (this.data.openId && this.data.openId !== id) {
-      this.setData({ openId: '', slideId: '', slideX: 0 });
-    }
-  },
-
-  onTouchMove(e) {
-    if (!this._touchingId) return;
-    const dx = e.touches[0].clientX - this._startX;
-    const dy = e.touches[0].clientY - this._startY;
-
-    // 首次位移足够时判定方向：明显的横向才处理，纵向则让页面正常滚动
-    if (this._horiz === null) {
-      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-      this._horiz = Math.abs(dx) > Math.abs(dy);
-    }
-    if (!this._horiz) return;
-
-    // 该项若已滑开，起点是 -SLIDE_W；否则从 0 开始
-    const base = this.data.openId === this._touchingId ? -SLIDE_W : 0;
-    let x = base + dx;
-    if (x > 0) x = 0;
-    if (x < -SLIDE_W) x = -SLIDE_W;
-    this.setData({ slideX: x, slideId: this._touchingId });
-  },
-
-  onTouchEnd() {
-    if (!this._touchingId) return;
-    const id = this._touchingId;
-    this._touchingId = null;
-    this._horiz = null;
-    // 位移超过一半 → 吸附滑开；否则回弹收起
-    const x = this.data.slideId === id ? this.data.slideX : 0;
-    const shouldOpen = x < -SLIDE_W / 2;
-    this.setData({
-      slideX: shouldOpen ? -SLIDE_W : 0,
-      slideId: shouldOpen ? id : '',
-      openId: shouldOpen ? id : ''
-    });
-  },
-
+  // ---- 左滑删除（触摸事件来自公共模块 slideToDelete）----
   onDelete(e) {
     const id = e.currentTarget.dataset.id;
     wx.showModal({
@@ -148,12 +110,16 @@ Page({
   onSend() {
     const text = this.data.input.trim();
     if (!text || this.data.sending) return;
-    const sessionId = this.data.currentSessionId;
-    if (!sessionId) return;
+    // 新对话的第一次发送：此刻才真正创建会话并保存
+    let sessionId = this.data.currentSessionId;
+    if (!sessionId) {
+      sessionId = chat.createSession().id;
+    }
 
     chat.addMessage(sessionId, 'user', text);
     const msgs = chat.getSession(sessionId).messages;
     this.setData({
+      currentSessionId: sessionId,
       input: '',
       messages: msgs,
       sending: true,
@@ -161,14 +127,11 @@ Page({
       scrollInto: 'msg-' + (msgs.length - 1)
     });
 
-    wx.cloud.callFunction({
-      name: 'ai',
-      data: {
-        mode: 'chat',
-        question: text,
-        context: this.buildContext(),
-        history: msgs.slice(-10, -1) // 最近历史（不含刚发的这条），数据最小化
-      }
+    cloud.call('ai', {
+      mode: 'chat',
+      question: text,
+      context: this.buildContext(),
+      history: msgs.slice(-5, -1) // 最近 5 条历史（不含刚发的这条），数据最小化，也缩短 AI 处理时间
     })
       .then(res => {
         const r = res.result || {};
@@ -195,7 +158,7 @@ Page({
       return sign + e.amount + ' ' + (e.desc || '') + '(' + (e.category || '其他') + ')';
     }).join('；');
     return [
-      '本月生活费 ' + cfg.totalIncome + ' 元，分罐：日常 ' + jars.flowerTotal.toFixed(0) + '、应急 ' + jars.rescue.toFixed(0) + '、存款 ' + jars.savings.toFixed(0),
+      '本月生活费 ' + cfg.totalIncome + ' 元，三分：日常 ' + jars.flowerTotal.toFixed(0) + '、应急 ' + jars.rescue.toFixed(0) + '、存款 ' + jars.savings.toFixed(0),
       '日常已花 ' + jars.flowerUsed.toFixed(0) + '（' + jars.percent + '%），还剩 ' + jars.flowerRemain.toFixed(0) + '，距月底还有 ' + jars.daysLeft + ' 天',
       '最近消费：' + (recent || '暂无')
     ].join('。');
@@ -210,4 +173,4 @@ Page({
     }
     return '你好！这个月日常还剩 ¥' + jars.flowerRemain.toFixed(0) + '，日均还能花 ¥' + jars.avgDaily + '。想问点啥？';
   }
-});
+}));

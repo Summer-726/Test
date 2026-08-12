@@ -32,4 +32,13 @@ function updateLedger(id, patch) {
   return ledger[idx];
 }
 
-module.exports = { getLedger, addLedger, updateLedger, getLedgerByMonth };
+// 按 id 删除一条账目（首页撤回用），返回是否删到
+function deleteLedger(id) {
+  const ledger = getLedger();
+  const next = ledger.filter(e => e.id !== id);
+  if (next.length === ledger.length) return false;
+  wx.setStorageSync(KEY_LEDGER, next);
+  return true;
+}
+
+module.exports = { getLedger, addLedger, updateLedger, deleteLedger, getLedgerByMonth };

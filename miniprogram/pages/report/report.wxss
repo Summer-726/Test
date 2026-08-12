@@ -1,0 +1,64 @@
+/* 汇报页样式（阶段 5b：生成中 / 出错 / 正文三态） */
+
+.center {
+  text-align: center;
+  padding: 140rpx 40rpx;
+}
+
+.spinner {
+  width: 48rpx;
+  height: 48rpx;
+  margin: 0 auto 24rpx;
+  border: 4rpx solid #e5e5ea;
+  border-top-color: #0a84ff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hint {
+  font-size: 26rpx;
+  color: #86868b;
+}
+
+.err {
+  font-size: 26rpx;
+  color: #ff3b30;
+  margin-bottom: 32rpx;
+}
+
+.retry {
+  display: inline-block;
+  padding: 16rpx 56rpx;
+  border-radius: 999rpx;
+  background: #0a84ff;
+  color: #ffffff;
+  font-size: 28rpx;
+}
+
+.report-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 16rpx;
+}
+
+/* pre-wrap：让 AI 回复里的换行能显示出来 */
+.report-body {
+  font-size: 28rpx;
+  line-height: 1.7;
+  color: #1d1d1f;
+  white-space: pre-wrap;
+}
+
+.report-foot {
+  margin-top: 32rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #f2f2f7;
+  text-align: center;
+  color: #0a84ff;
+  font-size: 28rpx;
+}

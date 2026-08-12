@@ -1,1 +1,88 @@
-/* 洞察页专属样式（阶段 5 填充） */
+/* 总结页样式（阶段 5c 分类条形图 + 汇报入口；顾问点评已删） */
+
+/* 汇报入口（从首页挪来，方案一） */
+.report-row {
+  display: flex;
+  margin: 24rpx 32rpx 8rpx;
+}
+
+.report-btn {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 26rpx 0;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #0a84ff;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.report-btn + .report-btn {
+  margin-left: 20rpx;
+}
+
+.ins-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.ins-sub {
+  font-size: 24rpx;
+  color: #86868b;
+  margin: 8rpx 0 28rpx;
+}
+
+.empty {
+  text-align: center;
+  color: #86868b;
+  font-size: 26rpx;
+  padding: 40rpx 0;
+}
+
+.cat {
+  margin-bottom: 24rpx;
+}
+
+.cat:last-child {
+  margin-bottom: 0;
+}
+
+.cat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.cat-name {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #1d1d1f;
+}
+
+.dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+
+.cat-amount {
+  font-size: 26rpx;
+  color: #86868b;
+}
+
+.cat-track {
+  height: 14rpx;
+  background: #f2f2f7;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.cat-fill {
+  height: 100%;
+  border-radius: 999rpx;
+}

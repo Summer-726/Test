@@ -76,7 +76,7 @@
 /* ===== 描述输入 ===== */
 .desc-box {
   background: #ffffff;
-  border-radius: 20rpx;
+  border-radius: 28rpx;
   margin: 8rpx 32rpx;
   padding: 24rpx 28rpx;
 }
@@ -97,7 +97,8 @@
 }
 
 .date-hint {
-  margin-left: 8rpx;
+  margin-left: 12rpx;
+  color: #0a84ff;   /* 蓝色提示可点 */
 }
 
 /* ===== 数字键盘 ===== */
@@ -109,6 +110,7 @@
   display: flex;
   background: #f2f2f7;
   padding: 8rpx;
+  padding-bottom: calc(8rpx + env(safe-area-inset-bottom)); /* iPhone 底部安全区，别被 Home 条挡住「保存」 */
 }
 
 .keypad-grid {

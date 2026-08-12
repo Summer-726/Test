@@ -1,8 +1,30 @@
-<!-- 洞察页（阶段 1 骨架） -->
-<view class="page-title">洞察</view>
-<view class="page-sub">阶段 5 实现：钱花得值不值</view>
+<!-- 总结页（阶段 5c 分类图表 + 汇报入口；顾问点评已删，测试版从简） -->
+
+<!-- 汇报入口（原在首页，方案一挪到这里，想看时再点） -->
+<view class="report-row">
+  <view class="report-btn" hover-class="pressed" bindtap="onReportToday">今日汇报</view>
+  <view class="report-btn" hover-class="pressed" bindtap="onReportMonth">本月汇报</view>
+</view>
 
 <view class="card">
-  <view class="placeholder">📊 分类花费 + 值得度图表 —— 阶段 5</view>
-  <view class="placeholder">🤖 AI 点评：最值 / 最后悔 —— 阶段 5</view>
+  <view class="ins-title">本月花费分布</view>
+  <view class="ins-sub">{{month}} · {{count}} 笔 · 共 ¥{{totalExpense}}</view>
+
+  <view wx:if="{{empty}}" class="empty">本月还没有消费记录，先去记几笔～</view>
+
+  <!-- wx:if / wx:for 不能放同一节点，用 block 包装 -->
+  <block wx:else>
+    <view class="cat" wx:for="{{cats}}" wx:key="name">
+      <view class="cat-head">
+        <view class="cat-name">
+          <view class="dot" style="background: {{item.color}}"></view>
+          {{item.name}}
+        </view>
+        <view class="cat-amount">¥{{item.amount}}</view>
+      </view>
+      <view class="cat-track">
+        <view class="cat-fill" style="width: {{item.percent}}%; background: {{item.color}}"></view>
+      </view>
+    </view>
+  </block>
 </view>

@@ -37,7 +37,7 @@
   color: #1d1d1f;
 }
 
-/* ===== 三罐比例 ===== */
+/* ===== 三分比例 ===== */
 .ratio-display {
   display: flex;
   justify-content: space-between;
@@ -48,21 +48,90 @@
 
 .preset-row {
   display: flex;
-  flex-wrap: wrap;
 }
 
 .preset-chip {
-  padding: 12rpx 28rpx;
-  margin: 8rpx 16rpx 8rpx 0;
+  flex: 1;                        /* 均分整行，间距均匀 */
+  padding: 14rpx 0;
+  margin: 8rpx 12rpx 8rpx 0;
+  text-align: center;
   border-radius: 999rpx;
   background: #f2f2f7;
   font-size: 26rpx;
   color: #1d1d1f;
 }
 
+.preset-chip:last-child {
+  margin-right: 0;                /* 最后一颗不留右边距，正好贴齐 */
+}
+
 .preset-chip.active {
   background: #0a84ff;
   color: #ffffff;
+}
+
+/* ===== 自定义比例输入区 ===== */
+.custom-box {
+  margin-top: 20rpx;
+  background: #f2f2f7;
+  border-radius: 20rpx;
+  padding: 24rpx;
+}
+
+.custom-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-col + .custom-col {
+  margin-left: 16rpx;
+}
+
+.custom-label {
+  font-size: 24rpx;
+  color: #86868b;
+  margin-bottom: 12rpx;
+}
+
+.custom-input-wrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 12rpx 20rpx;
+}
+
+.custom-input {
+  flex: 1;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1d1d1f;
+  text-align: center;
+}
+
+.pct {
+  font-size: 26rpx;
+  color: #86868b;
+}
+
+.custom-total {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #ff3b30;
+  text-align: center;
+}
+
+.custom-total.ok {
+  color: #34c759;
 }
 
 /* ===== 预警开关 ===== */

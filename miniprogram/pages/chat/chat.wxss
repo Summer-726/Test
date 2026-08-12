@@ -13,24 +13,13 @@ page { height: 100%; }
 }
 .session-empty { color: #86868b; font-size: 26rpx; text-align: center; padding: 120rpx 60rpx; }
 
-/* 左滑删除 */
+/* 左滑删除：滑动机制（.slide-wrap/.slide-content/.slide-delete）在全局 app.wxss，
+   这里只留会话列表的装饰 */
 .slide-wrap {
-  position: relative; overflow: hidden;
-  margin: 12rpx 32rpx; border-radius: 20rpx;
+  margin: 12rpx 32rpx; border-radius: 28rpx;
   background: #fff; box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
 }
-.slide-content {
-  position: relative; z-index: 1;      /* 关键：平时白色卡片压住右侧的删除按钮 */
-  background: #fff; border-radius: 20rpx;
-  transition: transform 0.18s ease;
-}
-.slide-wrap.is-open .slide-content { transform: translateX(-80px); }
-.slide-delete {
-  position: absolute; top: 0; right: 0; bottom: 0; width: 80px;
-  background: #ff3b30; color: #fff; font-size: 28rpx;
-  display: flex; align-items: center; justify-content: center;
-}
-.session-item { background: #fff; border-radius: 20rpx; padding: 26rpx 28rpx; }
+.session-item { border-radius: 28rpx; padding: 26rpx 28rpx; }
 .session-title { font-size: 30rpx; font-weight: 500; color: #1d1d1f; }
 .session-preview {
   font-size: 24rpx; color: #86868b; margin-top: 8rpx;
@@ -64,6 +53,7 @@ page { height: 100%; }
 .chat-input-bar {
   display: flex; align-items: center; padding: 16rpx 24rpx; background: #fff;
   border-top: 1rpx solid #e5e5ea;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom)); /* iPhone 底部安全区 */
 }
 .chat-input {
   flex: 1; background: #f2f2f7; border-radius: 999rpx;

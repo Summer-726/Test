@@ -1,5 +1,5 @@
-// 三罐预算核心逻辑：分罐 / 预警 / 跨月结转
-// 三罐：flower 花 | rescue 救急 | savings 存
+// 三分预算核心逻辑：分档 / 预警 / 跨月结转
+// 三档：flower 日常 | rescue 应急 | savings 存款
 // 数据结构见 docs/tech.md §3.2
 
 const store = require('./store');
@@ -101,6 +101,14 @@ function addIncome(amount) {
   return cfg;
 }
 
+// 撤回收入：从本月总收入里扣回（首页撤回收入时用，防虚高，不扣成负数）
+function removeIncome(amount) {
+  const cfg = ensureCurrentMonth();
+  cfg.totalIncome = Math.max(0, (cfg.totalIncome || 0) - amount);
+  saveMonthConfig(cfg);
+  return cfg;
+}
+
 // ---------- 存钱目标 ----------
 function getSavingsGoal() {
   return wx.getStorageSync(KEY_GOAL) || null;
@@ -117,6 +125,7 @@ module.exports = {
   ensureCurrentMonth,
   computeJars,
   addIncome,
+  removeIncome,
   getSavingsGoal,
   saveSavingsGoal
 };

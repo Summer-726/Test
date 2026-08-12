@@ -1,0 +1,20 @@
+<!-- 汇报页（阶段 5b：今日 / 本月汇报展示） -->
+
+<!-- 生成中 -->
+<view wx:if="{{loading}}" class="center">
+  <view class="spinner"></view>
+  <view class="hint">顾问正在翻账本…</view>
+</view>
+
+<!-- 出错 -->
+<view wx:elif="{{error}}" class="center">
+  <view class="err">出错了：{{error}}</view>
+  <view class="retry" hover-class="pressed" bindtap="onRetry">再试一次</view>
+</view>
+
+<!-- 汇报正文 -->
+<view wx:else class="card">
+  <view class="report-title">{{title}}</view>
+  <view class="report-body">{{report}}</view>
+  <view class="report-foot" hover-class="pressed" bindtap="onRetry">重新生成</view>
+</view>

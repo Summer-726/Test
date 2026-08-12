@@ -1,6 +1,39 @@
-/* 首页样式（阶段 1b：结构成型） */
+/* 首页样式 */
 
-/* ===== 三罐状态卡 ===== */
+/* ===== AI 顾问入口卡（方案一：AI 是主角） ===== */
+.ask-ai-card {
+  margin: 32rpx 32rpx 0;
+  background: linear-gradient(135deg, #0a84ff 0%, #1556e0 100%);
+  border-radius: 28rpx;
+  padding: 34rpx 36rpx;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.ask-ai-left {
+  flex: 1;
+}
+
+.ask-ai-title {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.ask-ai-sub {
+  font-size: 24rpx;
+  opacity: 0.92;
+  margin-top: 10rpx;
+}
+
+.ask-ai-arrow {
+  font-size: 44rpx;
+  font-weight: 300;
+  margin-left: 16rpx;
+  opacity: 0.9;
+}
+
+/* ===== 日常/应急/存款状态卡 ===== */
 .jar-card {
   margin-top: 32rpx;
 }
@@ -22,7 +55,7 @@
   color: #86868b;
 }
 
-/* 花罐进度条 */
+/* 日常进度条 */
 .progress-bar {
   height: 12rpx;
   background: #e5e5ea;
@@ -62,28 +95,6 @@
   font-size: 26rpx;
 }
 
-/* ===== 汇报按钮 ===== */
-.report-row {
-  display: flex;
-  margin: 8rpx 32rpx;
-}
-
-.report-btn {
-  flex: 1;
-  background: #ffffff;
-  border-radius: 20rpx;
-  padding: 26rpx 0;
-  text-align: center;
-  font-size: 30rpx;
-  font-weight: 500;
-  color: #0a84ff;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
-}
-
-.report-btn + .report-btn {
-  margin-left: 20rpx;
-}
-
 /* ===== 顾问提醒卡片 ===== */
 .advisor-title {
   font-size: 30rpx;
@@ -96,29 +107,36 @@
   color: #86868b;
 }
 
-/* ===== 最近消费 ===== */
+/* ===== 最近消费（左滑撤回）===== */
+/* 去掉卡片左右内边距，让滑动行贴到卡片边缘；overflow 裁剪圆角外的删除按钮 */
+.recent-card {
+  padding: 32rpx 0;
+  overflow: hidden;
+}
+
 .recent-title {
   font-size: 30rpx;
   font-weight: 600;
-  margin-bottom: 12rpx;
+  margin: 0 32rpx 12rpx;
 }
 
 .recent-empty {
   color: #86868b;
   font-size: 26rpx;
+  margin: 0 32rpx;
   padding: 28rpx 0;
   text-align: center;
+}
+
+/* 行与行之间的分隔线（用相邻兄弟选择器，避免误伤第一行） */
+.slide-wrap + .slide-wrap {
+  border-top: 1rpx solid #f2f2f7;
 }
 
 .recent-item {
   display: flex;
   align-items: center;
-  padding: 20rpx 0;
-  border-top: 1rpx solid #f2f2f7;
-}
-
-.recent-item:first-of-type {
-  border-top: none;
+  padding: 20rpx 32rpx;
 }
 
 .recent-left {

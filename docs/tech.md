@@ -44,8 +44,8 @@
 {
   yearMonth: "2026-08",
   totalIncome: 1500,                    // 本月总收入（生活费 + 额外收入）
-  ratio: { flower: 70, rescue: 15, savings: 15 }, // 三罐比例，可调
-  carry: { rescue: 0, savings: 0 }      // 上个月结转进来的救急/存余额
+  ratio: { flower: 70, rescue: 15, savings: 15 }, // 日常/应急/存款比例，可调
+  carry: { rescue: 0, savings: 0 }      // 上个月结转进来的应急/存余额
 }
 ```
 
